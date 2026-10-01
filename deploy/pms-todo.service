@@ -1,0 +1,49 @@
+# 项目管理系统 · 待办清单 — systemd 服务单元
+#
+# 安装：
+#   sudo cp deploy/pms-todo.service /etc/systemd/system/pms-todo.service
+#   sudo systemctl daemon-reload
+#   sudo systemctl enable --now pms-todo
+#   sudo systemctl status pms-todo
+#
+# 日志：
+#   journalctl -u pms-todo -f
+
+[Unit]
+Description=PMS Todo (FastAPI) - 项目管理系统 待办清单
+Documentation=file:///opt/pms-todo/README.md
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=pms
+Group=pms
+WorkingDirectory=/opt/pms-todo
+
+# 生产环境变量（不要提交 .env 到仓库）
+Environment=PYTHONUNBUFFERED=1
+Environment=TODO_HOST=127.0.0.1
+Environment=TODO_PORT=8000
+Environment=TODO_DATA_DIR=/opt/pms-todo/data
+Environment=TODO_DB=/opt/pms-todo/data/todo.db
+Environment=TODO_REGION=CN
+
+# 首次启动会自动写入示例待办；若不想要示例数据，改成 --api-only
+ExecStart=/opt/pms-todo/.venv/bin/python run.py --api-only
+ExecReload=/bin/kill -HUP $MAINPID
+
+Restart=always
+RestartSec=3
+KillSignal=SIGINT
+TimeoutStopSec=15
+
+# 加固：只允许写自己的数据目录
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=full
+ProtectHome=true
+ReadWritePaths=/opt/pms-todo/data
+
+[Install]
+WantedBy=multi-user.target

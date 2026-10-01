@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>项目管理系统 · 待办清单</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='7' fill='%231f3864'/><path d='M9 16.5l4.5 4.5L23 12' stroke='white' stroke-width='3' fill='none' stroke-linecap='round' stroke-linejoin='round'/></svg>">
+<link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+<div id="app" class="layout">
+
+  <!-- ===================== 左侧菜单栏 ===================== -->
+  <aside class="sidebar" id="sidebar">
+    <div class="brand">
+      <div class="brand-logo">PMS</div>
+      <div class="brand-text">
+        <strong>项目管理系统</strong>
+        <span>v1.0 · 一期</span>
+      </div>
+    </div>
+
+    <!-- 日期 + 待办数量 -->
+    <div class="side-today" id="sideToday">
+      <div class="st-date" id="stDate">----------</div>
+      <div class="st-week" id="stWeek">星期—</div>
+      <div class="st-count" id="stCount"><b>0</b> 项待办未完成</div>
+    </div>
+
+    <nav class="nav" id="nav"></nav>
+
+    <div class="side-foot">
+      <a class="side-doc" href="/docs" target="_blank" rel="noopener">接口文档 /docs</a>
+      <div class="side-hint">其他菜单二期开放</div>
+    </div>
+  </aside>
+
+  <!-- ===================== 主内容区 ===================== -->
+  <main class="main">
+    <header class="topbar">
+      <div class="tb-left">
+        <button class="icon-btn only-mobile" id="navToggle" title="菜单">☰</button>
+        <div>
+          <h1 id="pageTitle">待办清单</h1>
+          <div class="tb-sub" id="pageSub">加载中…</div>
+        </div>
+      </div>
+      <div class="tb-right">
+        <div class="stat-pills" id="statPills"></div>
+        <button class="btn primary" id="btnNew">＋ 新建待办</button>
+      </div>
+    </header>
+
+    <div class="content">
+      <!-- 筛选工具条 -->
+      <div class="toolbar">
+        <div class="tabs" id="statusTabs"></div>
+        <div class="filters">
+          <div class="chip-group" id="priorityChips"></div>
+          <select class="select" id="typeFilter"></select>
+          <div class="search">
+            <span class="search-ico">🔍</span>
+            <input id="searchInput" type="text" placeholder="搜索事项或备注…" autocomplete="off">
+            <button class="search-clear" id="searchClear" hidden>×</button>
+          </div>
+          <select class="select" id="sortSelect">
+            <option value="created_at:desc">最新创建</option>
+            <option value="created_at:asc">最早创建</option>
+            <option value="priority:asc">优先级高→低</option>
+            <option value="due_date:asc">截止日期近→远</option>
+            <option value="completed_at:desc">最近完成</option>
+            <option value="workdays:desc">耗时最长</option>
+            <option value="title:asc">事项名称 A→Z</option>
+          </select>
+          <button class="btn ghost" id="btnClearDone" title="删除所有已完成待办">清空已完成</button>
+        </div>
+      </div>
+
+      <!-- 卡片区 -->
+      <section class="cards" id="cards"></section>
+      <div class="list-foot" id="listFoot" hidden></div>
+    </div>
+  </main>
+</div>
+
+<div id="toasts" class="toasts"></div>
+<div id="modalRoot"></div>
+
+<script src="js/config.js"></script>
+<script src="js/utils.js"></script>
+<script src="js/api.js"></script>
+<script src="js/ui.js"></script>
+<script src="js/todo.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>

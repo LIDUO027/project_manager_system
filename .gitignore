@@ -1,0 +1,19 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# 运行数据（SQLite 库）
+data/*.db
+data/*.db-wal
+data/*.db-shm
+
+# 配置
+.env
+
+# 编辑器 / 系统
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
